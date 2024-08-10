@@ -6,9 +6,9 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
-    command: ["npm", "run", "dev"]
+    command: npm run dev
     volumes:
-      - ./client:./app/client  # Adjust path to frontend code
+      - ./client:/app/client  # Adjust path to frontend code
     stdin_open: true
     tty: true
     depends_on:
@@ -18,12 +18,12 @@ services:
     build: ./server
     container_name: server
     ports:
-      - "4000:4000"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
-      - PORT=4000
-      - MONGO_URI=mongodb://localhost:27017/mydatabase  # Adjust as needed for your environment
+      - PORT=${SERVER_PORT}
+      - MONGO_URI=${MONGO_URI}  # Adjust as needed for your environment
     volumes:
-      - ./server:./app/server  # Adjust path to backend code
-    command: ["npm", "run", "watch"]
+      - ./server:/app/server  # Adjust path to backend code
+    command: npm run watch
     stdin_open: true
     tty: true
