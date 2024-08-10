@@ -1,0 +1,29 @@
+services:
+  client:
+    build: ./client
+    container_name: client
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ./client:./app/client  # Adjust path to frontend code
+    stdin_open: true
+    tty: true
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    container_name: server
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://localhost:27017/mydatabase  # Adjust as needed for your environment
+    volumes:
+      - ./server:./app/server  # Adjust path to backend code
+    command: ["npm", "run", "watch"]
+    stdin_open: true
+    tty: true
